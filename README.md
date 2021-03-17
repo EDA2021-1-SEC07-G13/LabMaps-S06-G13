@@ -1,3 +1,7 @@
+Juan Esteban Cuellar Argotty - 202014258  \t
+David Santiago Vargas Prada - 202013826. \t
+
+
 #ISIS1225 - Estructura de un proyecto
 
 Este proyecto busca mostrar una posible forma de organizar el código que se va a desarrollar en los proyectos del curso.

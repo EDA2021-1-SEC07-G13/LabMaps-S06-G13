@@ -149,6 +149,17 @@ def newBookTag(name, id):
     return tag
 
 
+def newYear(pubyear):
+    """
+    Esta funcion crea la estructura de libros asociados
+    a un año.
+    """
+    entry = {'year': "", "books": None}
+    entry['year'] = pubyear
+    entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
+    return entry
+
+
 # Funciones para agregar informacion al catalogo
 
 def addBook(catalog, book):
@@ -168,41 +179,7 @@ def addBook(catalog, book):
     addBookYear(catalog, book)
 
 
-def addBookYear(catalog, book):
-    """
-    Esta funcion adiciona un libro a la lista de libros que
-    fueron publicados en un año especifico.
-    Los años se guardan en un Map, donde la llave es el año
-    y el valor la lista de libros de ese año.
-    """
-    try:
-        years = catalog['years']
-        if (book['original_publication_year'] != ''):
-            pubyear = book['original_publication_year']
-            pubyear = int(float(pubyear))
-        else:
-            pubyear = 2020
-        existyear = mp.contains(years, pubyear)
-        if existyear:
-            entry = mp.get(years, pubyear)
-            year = me.getValue(entry)
-        else:
-            year = newYear(pubyear)
-            mp.put(years, pubyear, year)
-        lt.addLast(year['books'], book)
-    except Exception:
-        return None
 
-
-def newYear(pubyear):
-    """
-    Esta funcion crea la estructura de libros asociados
-    a un año.
-    """
-    entry = {'year': "", "books": None}
-    entry['year'] = pubyear
-    entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
-    return entry
 
 
 def addBookAuthor(catalog, authorname, book):
@@ -235,6 +212,31 @@ def addTag(catalog, tag):
     mp.put(catalog['tags'], tag['tag_name'], newtag)
     mp.put(catalog['tagIds'], tag['tag_id'], newtag)
 
+def addBookYear(catalog, book):
+    """
+    Esta funcion adiciona un libro a la lista de libros que
+    fueron publicados en un año especifico.
+    Los años se guardan en un Map, donde la llave es el año
+    y el valor la lista de libros de ese año.
+    """
+    try:
+        years = catalog['years']
+        if (book['original_publication_year'] != ''):
+            pubyear = book['original_publication_year']
+            pubyear = int(float(pubyear))
+        else:
+            pubyear = 2020
+        existyear = mp.contains(years, pubyear)
+        if existyear:
+            entry = mp.get(years, pubyear)
+            year = me.getValue(entry)
+        else:
+            year = newYear(pubyear)
+            mp.put(years, pubyear, year)
+        lt.addLast(year['books'], book)
+    except Exception:
+        return None
+
 
 def addBookTag(catalog, tag):
     """
@@ -248,6 +250,7 @@ def addBookTag(catalog, tag):
 
     if entry:
         tagbook = mp.get(catalog['tags'], me.getValue(entry)['name'])
+        print(tagbook)
         tagbook['value']['total_books'] += 1
         tagbook['value']['count'] += int(tag['count'])
         book = mp.get(catalog['bookIds'], bookid)

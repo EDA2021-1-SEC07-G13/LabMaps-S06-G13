@@ -61,6 +61,7 @@ def loadBooks(catalog):
     booksfile = cf.data_dir + 'GoodReads/books-small.csv'
     input_file = csv.DictReader(open(booksfile, encoding='utf-8'))
     for book in input_file:
+        
         model.addBook(catalog, book)
 
 
@@ -72,6 +73,7 @@ def loadTags(catalog):
     tagsfile = cf.data_dir + 'GoodReads/tags.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for tag in input_file:
+        
         model.addTag(catalog, tag)
 
 
